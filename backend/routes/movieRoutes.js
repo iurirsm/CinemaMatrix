@@ -13,7 +13,7 @@ router.post('/add', async (req, res) => {
     }
 });
 
-//Get all movies
+// Get all movies
 router.get('/', async (req, res) => {
     try {
         const movies = await Movie.find();
@@ -66,9 +66,7 @@ router.get('/status/wishlist', async (req, res) => {
     }
 });
 
-/*Get all movies by genre. The new RegExp creates a regular expression, and the "i" is a flag 
-meaning case-insensitive. 
-*/
+//Get all movies by genre.
 router.get('/genre/:genre', async (req, res) => {
     try {
         const moviesByGenre = await Movie.find({ genre: new RegExp(req.params.genre, 'i') });
@@ -128,7 +126,7 @@ router.patch('/:id', async (req, res) => {
     }
 });
 
-//delete a movie by id. 
+// Delete a movie by id
 router.delete('/:id', async (req, res) => {
     try {
         await Movie.findByIdAndDelete(req.params.id);
@@ -137,7 +135,6 @@ router.delete('/:id', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
-
 
 
 module.exports = router;
