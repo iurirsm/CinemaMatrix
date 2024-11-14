@@ -36,30 +36,30 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-//get all movies marked as favourite
+// Get all movies marked as favourite
 router.get('/status/favourite', async (req, res) => {
     try {
-        const favouriteMovies = await Movie.find({ "status.favourite": true });
+        const favouriteMovies = await Movie.find({ favourite: true });
         res.json(favouriteMovies);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
 
-//get all movies marked as seen
+// Get all movies marked as seen
 router.get('/status/seen', async (req, res) => {
     try {
-        const seenMovies = await Movie.find({ "status.seen": true });
+        const seenMovies = await Movie.find({ seen: true });
         res.json(seenMovies);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
 
-//get all movies marked as wishlist
+// Get all movies marked as wishlist
 router.get('/status/wishlist', async (req, res) => {
     try {
-        const wishlistMovies = await Movie.find({ "status.wishlist": true });
+        const wishlistMovies = await Movie.find({ wishlist: true });
         res.json(wishlistMovies);
     } catch (error) {
         res.status(500).json({ message: error.message });
