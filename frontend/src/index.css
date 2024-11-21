@@ -1,3 +1,6 @@
+/* Global styles: button hover effects and font settings for entire application*/
+/*Applies to anything app-wide*/
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -25,10 +28,12 @@ a:hover {
 body {
   margin: 0;
   display: flex;
+  flex-direction: column; /* Aligns content in a column */
   place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  align-items: center;
+  background-color: #333;
 }
+
 
 h1 {
   font-size: 3.2em;
