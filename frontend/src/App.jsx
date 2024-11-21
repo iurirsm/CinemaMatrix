@@ -5,11 +5,14 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import Dashboard from './pages/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
+import Navigation from './components/Navigation/navigation';
+
 
 function App() {
   return (
     <AuthProvider>
       <Router>
+        <Navigation /> {/* Add Navigation component to render on all pages */}
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
