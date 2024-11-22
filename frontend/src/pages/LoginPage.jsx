@@ -18,7 +18,7 @@ const LoginPage = () => {
         password,
       });
       login(response.data);
-      navigate('/');
+      navigate('/profile');
     } catch (err) {
       setError(err.response.data.message || 'Login failed');
     }
