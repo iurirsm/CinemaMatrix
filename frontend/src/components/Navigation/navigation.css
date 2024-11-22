@@ -1,27 +1,31 @@
 /*Specifically for the navigation bar*/
 
-/*For top header area of page with logo*/
-.navbar {
-    background-color: #333; /* Set your desired background color */
-    color: white;
-    padding: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: fixed; /* Fix the navbar at the top of the screen */
-    top: 0;
-    left: 0;
-    width: 100%; /* Ensures the navbar spans the full width */
-    z-index: 1000; /* Makes sure it stays on top of other content */
-  }
+/*For top header area of page*/
+html body .navbar {
+  background-color: #333; 
+  color: white;
+  padding: 1rem ;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; 
+  box-sizing: border-box; 
+}
 
+    /*For the home image in navigation*/
   .home  {
-    height: 1.5rem; /* Adjust height as needed */
-    width: 1.5rem; /* Maintain aspect ratio */
+    height: 1.5rem; 
+    width: 1.5rem; 
   }
   
+  /*represented by the link components in the navbar class*/
   nav a {
     color: white;
+    font-size: 1rem;
     text-decoration: none;
     margin: 0 1rem;
   }
@@ -34,5 +38,11 @@
 @media screen and (max-width:720px) {
     .navbar {
         font-size: 2vw;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    nav a {
+        margin: 0;
     }
 }

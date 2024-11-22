@@ -1,3 +1,4 @@
+// src/App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
@@ -6,24 +7,27 @@ import RegisterPage from './pages/RegisterPage';
 import Dashboard from './pages/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
 import Navigation from './components/Navigation/navigation';
-
+import Profile from './pages/Profile';
+import Homepage from './pages/Homepage';
 
 function App() {
   return (
     <AuthProvider>
       <Router>
-        <Navigation /> {/* Add Navigation component to render on all pages */}
+        <Navigation />
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route
-            path="/"
+            path="/dashboard"
             element={
               <PrivateRoute>
                 <Dashboard />
               </PrivateRoute>
             }
           />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/homepage" element={<Homepage />} />
         </Routes>
       </Router>
     </AuthProvider>
