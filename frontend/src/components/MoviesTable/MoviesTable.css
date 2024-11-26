@@ -1,0 +1,16 @@
+.custom-table {
+    background-color: #f9f9f9; 
+    color: #333; 
+    border: 1px solid #ccc;
+  }
+  
+  .custom-table th {
+    background-color: green; 
+    color: white; 
+    text-align: center; 
+  }
+  
+  
+  .custom-table td {
+    background-color: #e4f4e6cb !important;
+  }
