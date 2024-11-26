@@ -21,7 +21,7 @@ const Homepage = () => {
         </>
       ) : (
         <>
-          <h2>You have to login first</h2>
+          {/* <h2>You have to login first</h2> */}
           <LoginPage />
         </>
       )}
