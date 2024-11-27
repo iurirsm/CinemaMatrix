@@ -6,11 +6,14 @@ import { PiStarLight, PiStarFill } from "react-icons/pi";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import "./MoviesTable.css";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { useLocation } from "react-router-dom";
 
 function MoviesTable() {
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState("");
   const { user } = useContext(AuthContext);
+  const location = useLocation();
 
   const fetchMovies = async () => {
     try {
@@ -53,6 +56,28 @@ function MoviesTable() {
     }
   };
 
+  // a trigger overlay for the icons
+  const favoritesRenderTooltip = (props) => (
+    <Tooltip id="fav-button-tooltip" {...props}>
+      add to favorites
+    </Tooltip>
+  );
+
+  const wishlistRenderTooltip = (props) => (
+    <Tooltip id="wish-button-tooltip" {...props}>
+      add to wishlist
+    </Tooltip>
+  );
+
+  const seenRenderTooltip = (props) => (
+    <Tooltip id="seen-button-tooltip" {...props}>
+      add to watched
+    </Tooltip>
+  );
+
+  const moviesToDisplay =
+    location.pathname === "/homepage" ? movies.slice(-4) : movies;
+
   return (
     <section className="py-5">
       <div className="container">
@@ -67,8 +92,8 @@ function MoviesTable() {
             </tr>
           </thead>
           <tbody>
-            {movies.length > 0 ? (
-              movies.slice(-4).map((movie) => (
+            {moviesToDisplay.length > 0 ? (
+              moviesToDisplay.map((movie) => (
                 <tr key={movie._id}>
                   <td>{movie.name}</td>
                   <td>
@@ -78,62 +103,80 @@ function MoviesTable() {
                   </td>
                   <td>{movie.genre}</td>
                   <td className="d-flex justify-content-center align-items-center gap-3">
-                    <div
-                      onClick={() =>
-                        updateMovieStatus(
-                          movie._id,
-                          "favourite",
-                          !movie.favourite
-                        )
-                      }
-                      style={{ cursor: "pointer" }}
+                    <OverlayTrigger
+                      placement="top"
+                      delay={{ show: 250, hide: 50 }}
+                      overlay={favoritesRenderTooltip}
                     >
-                      {movie.favourite ? (
-                        <GoHeartFill
-                          style={{ fontSize: "1.5rem", color: "red" }}
-                        />
-                      ) : (
-                        <GoHeart style={{ fontSize: "1.5rem", color: "red" }} />
-                      )}
-                    </div>
-
-                    <div
-                      onClick={() =>
-                        updateMovieStatus(
-                          movie._id,
-                          "wishlist",
-                          !movie.wishlist
-                        )
-                      }
-                      style={{ cursor: "pointer" }}
+                      <div
+                        onClick={() =>
+                          updateMovieStatus(
+                            movie._id,
+                            "favourite",
+                            !movie.favourite
+                          )
+                        }
+                        style={{ cursor: "pointer" }}
+                      >
+                        {movie.favourite ? (
+                          <GoHeartFill
+                            style={{ fontSize: "1.5rem", color: "red" }}
+                          />
+                        ) : (
+                          <GoHeart
+                            style={{ fontSize: "1.5rem", color: "red" }}
+                          />
+                        )}
+                      </div>
+                    </OverlayTrigger>
+                    <OverlayTrigger
+                      placement="top"
+                      delay={{ show: 250, hide: 50 }}
+                      overlay={wishlistRenderTooltip}
                     >
-                      {movie.wishlist ? (
-                        <PiStarFill
-                          style={{ fontSize: "1.5rem", color: "gold" }}
-                        />
-                      ) : (
-                        <PiStarLight
-                          style={{ fontSize: "1.5rem", color: "black" }}
-                        />
-                      )}
-                    </div>
-
-                    <div
-                      onClick={() =>
-                        updateMovieStatus(movie._id, "seen", !movie.seen)
-                      }
-                      style={{ cursor: "pointer" }}
+                      <div
+                        onClick={() =>
+                          updateMovieStatus(
+                            movie._id,
+                            "wishlist",
+                            !movie.wishlist
+                          )
+                        }
+                        style={{ cursor: "pointer" }}
+                      >
+                        {movie.wishlist ? (
+                          <PiStarFill
+                            style={{ fontSize: "1.5rem", color: "gold" }}
+                          />
+                        ) : (
+                          <PiStarLight
+                            style={{ fontSize: "1.5rem", color: "black" }}
+                          />
+                        )}
+                      </div>
+                    </OverlayTrigger>
+                    <OverlayTrigger
+                      placement="top"
+                      delay={{ show: 250, hide: 50 }}
+                      overlay={seenRenderTooltip}
                     >
-                      {movie.seen ? (
-                        <FaRegEyeSlash
-                          style={{ fontSize: "1.5rem", color: "green" }}
-                        />
-                      ) : (
-                        <FaRegEye
-                          style={{ fontSize: "1.5rem", color: "green" }}
-                        />
-                      )}
-                    </div>
+                      <div
+                        onClick={() =>
+                          updateMovieStatus(movie._id, "seen", !movie.seen)
+                        }
+                        style={{ cursor: "pointer" }}
+                      >
+                        {movie.seen ? (
+                          <FaRegEyeSlash
+                            style={{ fontSize: "1.5rem", color: "green" }}
+                          />
+                        ) : (
+                          <FaRegEye
+                            style={{ fontSize: "1.5rem", color: "green" }}
+                          />
+                        )}
+                      </div>
+                    </OverlayTrigger>
                   </td>
                 </tr>
               ))

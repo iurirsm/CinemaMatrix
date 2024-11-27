@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import HeroImage from "../assets/HeroImage.png";
 import "./LoginPage.css";
+import { AuthContext } from "../context/AuthContext";
 
 const RegisterPage = () => {
   const [username, setUsername] = useState("");
@@ -10,16 +11,22 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:3000/users/register", {
-        username,
-        email,
-        password,
-      });
-      navigate("/login");
+      const response = await axios.post(
+        "http://localhost:3000/users/register",
+        {
+          username,
+          email,
+          password,
+        }
+      );
+      login(response.data);
+
+      navigate("/homepage");
     } catch (err) {
       setError(err.response.data.message || "Registration failed");
     }

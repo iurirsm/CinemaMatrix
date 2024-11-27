@@ -2,6 +2,7 @@ import React from "react";
 import HeroImage from "../../assets/HeroImage.png";
 import "./HeroSection.css";
 import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 function HeroSection() {
   return (
@@ -29,8 +30,8 @@ function HeroSection() {
           </button>
         </div> */}
         <div className="d-flex justify-content-center gap-3 mt-4">
-          <button
-            className="btn btn-success"
+          <Button
+            variant="success"
             onClick={() => {
               document
                 .getElementById("latestMovies")
@@ -38,7 +39,7 @@ function HeroSection() {
             }}
           >
             see more
-          </button>
+          </Button>
           <Link to="/dashboard">
             <button className="btn btn-success">go to the Dashboard</button>
           </Link>

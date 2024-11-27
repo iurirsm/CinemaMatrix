@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import React, { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const Profile = () => {
-  const { user } = useContext(AuthContext); 
+  const { user } = useContext(AuthContext);
 
   return (
-    <div>
+    <div className="container py-5">
       <h1>Profile Page</h1>
-      <p>Welcome, {user.username}!</p> 
-      <p>Email: {user.email}</p> 
+      <p className="text-black">Welcome, {user.username}!</p>
+      <p className="text-black">Email: {user.email}</p>
     </div>
   );
 };
