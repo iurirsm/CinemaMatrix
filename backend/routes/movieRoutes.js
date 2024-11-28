@@ -99,6 +99,7 @@ router.get('/status/wishlist', protect, async (req, res) => {
     }
 });
 
+/*
 //Get by Genre 
 router.get('/genre/:genre', protect, async (req, res) => {
     try {
@@ -176,6 +177,8 @@ router.get('/actor/:name', protect, async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+
+*/
 
 module.exports = router;
 
