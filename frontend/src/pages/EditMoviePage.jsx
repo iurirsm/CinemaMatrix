@@ -1,10 +1,12 @@
-import { useState, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { IoIosArrowRoundBack } from "react-icons/io";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
-import { IoIosArrowRoundBack } from "react-icons/io";
 
-const MovieForm = () => {
+function EditMoviePage() {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [movieData, setMovieData] = useState({
     name: "",
     director: "",
@@ -12,60 +14,81 @@ const MovieForm = () => {
     distributor: "",
     genre: "",
     releaseYear: "",
-    status: {
-      seen: false,
-      favourite: false,
-      wishlist: false,
-    },
+    seen: false,
+    favourite: false,
+    wishlist: false,
   });
   const [error, setError] = useState("");
-  const { user } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const { user, loading: authLoading } = useContext(AuthContext); // Get the loading state
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // Fetch existing movie data
+  useEffect(() => {
+    const fetchMovieData = async () => {
+      if (!user || !user.token) return;
 
-    // Prepare the data before sending
-    const dataToSend = {
-      ...movieData,
-      director: movieData.director.split(",").map((dir) => dir.trim()),
-      producer: movieData.producer.split(",").map((prod) => prod.trim()),
-      releaseYear: parseInt(movieData.releaseYear),
+      try {
+        const response = await axios.get(`http://localhost:3000/movies/${id}`, {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
+        setMovieData(response.data);
+        setLoading(false);
+      } catch (err) {
+        setError(err.response?.data?.message || "Failed to fetch movie data");
+        setLoading(false);
+      }
     };
 
-    try {
-      await axios.post("http://localhost:3000/movies/add", dataToSend, {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      // Clear the form after successful submission
-      setMovieData({
-        name: "",
-        director: "",
-        producer: "",
-        distributor: "",
-        genre: "",
-        releaseYear: "",
-        seen: false,
-        favourite: false,
-        wishlist: false,
-      });
-      alert("Movie Added successfully!");
-      navigate("/dashboard");
-    } catch (err) {
-      setError(err.response?.data?.message || "Failed to add movie");
-    }
-  };
+    if (!authLoading) fetchMovieData(); // Wait until AuthProvider has finished loading
+  }, [id, user, authLoading]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-
     setMovieData((prevData) => ({
       ...prevData,
       [name]: type === "checkbox" ? checked : value,
     }));
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!user || !user.token) {
+      setError("User is not authenticated.");
+      return;
+    }
+
+    try {
+      await axios.patch(`http://localhost:3000/movies/${id}`, movieData, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      alert("Movie updated successfully!");
+      navigate("/dashboard");
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to update movie");
+    }
+  };
+
+  if (authLoading || loading) {
+    return <div className="container py-5">Loading...</div>;
+  }
+
+  if (error) {
+    return (
+      <div className="container py-5">
+        <div className="alert alert-danger">{error}</div>
+        <Link to="/dashboard" className="btn btn-secondary mt-3">
+          Go Back
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="container py-5">
@@ -73,8 +96,7 @@ const MovieForm = () => {
         <IoIosArrowRoundBack style={{ fontSize: "2.5rem", color: "black" }} />
       </Link>
       <div className="pt-4">
-        <h3>Add Movie</h3>
-        {error && <div className="alert alert-danger">{error}</div>}
+        <h3>Edit Movie</h3>
         <form onSubmit={handleSubmit}>
           <div className="row">
             {/* Name */}
@@ -153,13 +175,13 @@ const MovieForm = () => {
             </div>
             {/* Status Checkboxes */}
             <hr />
-            <div className="d-flex justify-content-center align-text-center gap-5 pt-3">
-              <div className="form-check ">
+            <div className="d-flex justify-content-center align-items-center gap-5 pt-3">
+              <div className="form-check">
                 <input
                   className="form-check-input"
                   type="checkbox"
                   name="seen"
-                  checked={movieData.seen || false}
+                  checked={movieData.seen}
                   onChange={handleChange}
                 />
                 <label className="form-check-label">Seen</label>
@@ -169,7 +191,7 @@ const MovieForm = () => {
                   className="form-check-input"
                   type="checkbox"
                   name="favourite"
-                  checked={movieData.favourite || false}
+                  checked={movieData.favourite}
                   onChange={handleChange}
                 />
                 <label className="form-check-label">Favourite</label>
@@ -179,15 +201,16 @@ const MovieForm = () => {
                   className="form-check-input"
                   type="checkbox"
                   name="wishlist"
-                  checked={movieData.wishlist || false}
+                  checked={movieData.wishlist}
                   onChange={handleChange}
                 />
                 <label className="form-check-label">Wishlist</label>
               </div>
             </div>
+            {/* Submit Button */}
           </div>
           <div className="d-flex justify-content-center align-items-center pt-3">
-            <button type="submit" className="btn btn-primary ">
+            <button type="submit" className="btn btn-primary">
               Save
             </button>
           </div>
@@ -195,6 +218,6 @@ const MovieForm = () => {
       </div>
     </div>
   );
-};
+}
 
-export default MovieForm;
+export default EditMoviePage;

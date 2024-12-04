@@ -10,7 +10,7 @@ function UserMovies() {
         <div className="d-flex justify-content-between">
           <h2>Your Movies</h2>
           <Link to="/dashboard">
-            <Button variant="success">Add new movie</Button>
+            <Button variant="success">manage movies</Button>
           </Link>
         </div>
 

@@ -1,7 +1,6 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import home from "./Images/home3.png";
 import logo from "../../assets/logo.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
@@ -14,6 +13,8 @@ const Navigation = () => {
   const getCurrentPage = () => {
     const path = location.pathname;
     if (path === "/") return "Home";
+    if (path.startsWith("/edit-movie/")) return "Edit Movie";
+    if (path.startsWith("/show-movie/")) return "Show Movie";
     return path.charAt(1).toUpperCase() + path.slice(2).replace("/", " ");
   };
 
@@ -59,12 +60,6 @@ const Navigation = () => {
                 <Nav.Link as={Link} to="/movies">
                   my Movies
                 </Nav.Link>
-                {/* <Nav.Link as={Link} to="/profile">
-                  Profile
-                </Nav.Link>
-                <Nav.Link as={Link} to="/login" onClick={logout}>
-                  Logout
-                </Nav.Link> */}
                 <NavDropdown
                   title={<>Hi {user.username || "User"}</>}
                   id="user-dropdown"
