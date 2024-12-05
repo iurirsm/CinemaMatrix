@@ -16,7 +16,7 @@ function ShowMoviePage() {
       if (!user?.token) return; // Wait until the token is available
 
       try {
-        const response = await axios.get(`http://localhost:3000/movies/${id}`, {
+        const response = await axios.get(`/movies/${id}`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
