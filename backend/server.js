@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const path = require('path');
 
 
 dotenv.config();
@@ -31,6 +32,17 @@ const userRoutes = require('./routes/userRoutes');
 // Use Routes
 app.use('/movies', movieRoutes);  
 app.use('/users', userRoutes);
+
+// Serve static frontend files if in production
+if (process.env.NODE_ENV === 'production') {
+    const frontendPath = path.join(__dirname, '../frontend/dist');
+    app.use(express.static(frontendPath));
+
+    // Serve index.html for unmatched routes
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(frontendPath, 'index.html'));
+    });
+}
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
