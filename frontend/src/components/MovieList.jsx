@@ -15,13 +15,13 @@ const MovieList = ({ status }) => {
   // Fetch movies
   const fetchMovies = async () => {
     try {
-      let url = "http://localhost:3000/movies"; // Default URL for all movies
+      let url = "/movies"; // Default URL for all movies
       if (status === "favorites")
-        url = "http://localhost:3000/movies/status/favourite";
+        url = "/movies/status/favourite";
       else if (status === "wishlist")
-        url = "http://localhost:3000/movies/status/wishlist";
+        url = "/movies/status/wishlist";
       else if (status === "watched")
-        url = "http://localhost:3000/movies/status/seen";
+        url = "/movies/status/seen";
 
       const response = await axios.get(url, {
         headers: {
@@ -49,7 +49,7 @@ const MovieList = ({ status }) => {
     if (!confirmed) return;
 
     try {
-      await axios.delete(`http://localhost:3000/movies/${id}`, {
+      await axios.delete(`/movies/${id}`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },

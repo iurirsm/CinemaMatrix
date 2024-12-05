@@ -17,7 +17,7 @@ function MoviesTable() {
 
   const fetchMovies = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/movies", {
+      const response = await axios.get("/movies", {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
@@ -36,7 +36,7 @@ function MoviesTable() {
   const updateMovieStatus = async (movieId, field, value) => {
     try {
       const response = await axios.patch(
-        `http://localhost:3000/movies/${movieId}`,
+        `/movies/${movieId}`,
         { [field]: value },
         {
           headers: {

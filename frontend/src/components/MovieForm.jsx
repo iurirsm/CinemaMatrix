@@ -34,7 +34,7 @@ const MovieForm = () => {
     };
 
     try {
-      await axios.post("http://localhost:3000/movies/add", dataToSend, {
+      await axios.post("/movies/add", dataToSend, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
