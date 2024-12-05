@@ -28,7 +28,7 @@ function EditMoviePage() {
       if (!user || !user.token) return;
 
       try {
-        const response = await axios.get(`http://localhost:3000/movies/${id}`, {
+        const response = await axios.get(`/movies/${id}`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
@@ -61,7 +61,7 @@ function EditMoviePage() {
     }
 
     try {
-      await axios.patch(`http://localhost:3000/movies/${id}`, movieData, {
+      await axios.patch(`/movies/${id}`, movieData, {
         headers: {
           Authorization: `Bearer ${user.token}`,
           "Content-Type": "application/json",
